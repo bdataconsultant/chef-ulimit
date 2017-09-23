@@ -8,7 +8,7 @@ class Chef::Provider::UlimitDomain < Chef::Provider
     new_resource.filename "#{new_resource.filename}.conf"
 
     new_resource.subresource_rules.map! do |name, block|
-      urule = Chef::Resource::UlimitRule.new("ulimit_rule[#{new_resource.name}:#{name}]", nil)
+      urule = Chef::ResourceResolver.resolve(:ulimit_rule).new("ulimit_rule[#{new_resource.name}:#{name}]", nil)
       urule.domain new_resource
       urule.action :nothing
       urule.instance_eval(&block)
